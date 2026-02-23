@@ -35,8 +35,8 @@ class MyTouchpadService : AccessibilityService() {
     private var virtualX = 0f
     private var virtualY = 0f
 
-    private val hotSpotX = 4.5f
-    private val hotSpotY = 3.5f
+    private val hotSpotX = 8f
+    private val hotSpotY = 8f
 
     private var isRefreshing = false
 
