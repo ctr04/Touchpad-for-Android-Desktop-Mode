@@ -5,7 +5,7 @@
 <div align="center"><h4>An Android app that turns your smartphone into a Touchpad for Android 16's Desktop Mode.</h4></div>
 
 <div align="center">
-    <a href="https://github.com/ctr04/Touchpad-for-Android-Desktop-Mode/releases" target="_blank"><img src="assets/get-it-on-github-badge.png" alt="Get it on F-Droid" height="90"></a>
+    <a href="https://github.com/ctr04/Touchpad-for-Android-Desktop-Mode/releases" target="_blank"><img src="assets/get-it-on-github-badge.png" alt="Get it on GitHub" height="90"></a>
 </div>
 
 
