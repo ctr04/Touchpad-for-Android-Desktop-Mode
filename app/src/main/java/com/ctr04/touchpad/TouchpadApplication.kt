@@ -5,11 +5,11 @@ import com.ctr04.touchpad.common.injections.appModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class BtRemoteApplication: Application() {
+class TouchpadApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(this@BtRemoteApplication)
+            androidContext(this@TouchpadApplication)
             modules(appModules)
         }
     }

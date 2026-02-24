@@ -1,6 +1,5 @@
 package com.ctr04.touchpad.ui.screens
 
-import android.content.Context.DISPLAY_SERVICE
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +29,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import android.hardware.display.DisplayManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ctr04.touchpad.R
 import com.ctr04.touchpad.common.utils.TouchpadEventBus
@@ -54,7 +51,7 @@ import com.ctr04.touchpad.ui.views.mouse.MousePadLayout
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun RemoteScreen(
+fun TouchpadScreen(
     closeApp: () -> Unit,
     navigateToSettings: () -> Unit,
     modifier: Modifier = Modifier,
@@ -70,7 +67,7 @@ fun RemoteScreen(
 
     BackHandler(enabled = true, onBack = closeApp)
 
-    StatelessRemoteScreen(
+    StatelessTouchpadScreen(
         isLandscapeMode = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE,
         topBarActions = {
             TopBarActions(
@@ -81,7 +78,7 @@ fun RemoteScreen(
             )
         },
         remoteLayout = {
-            RemoteLayout(
+            TouchpadLayout(
                 showAdvancedKeyboard = remoteSettings.useAdvancedKeyboard && remoteSettings.useAdvancedKeyboardIntegrated && showKeyboard,
                 keyboardLanguage = remoteSettings.keyboardLanguage,
                 sendKeyboardKeyReport = remoteViewModel.sendKeyboardReport
@@ -114,7 +111,7 @@ fun RemoteScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StatelessRemoteScreen(
+private fun StatelessTouchpadScreen(
     isLandscapeMode: Boolean,
     topBarActions: @Composable (RowScope.() -> Unit),
     remoteLayout: @Composable () -> Unit,
@@ -132,7 +129,7 @@ private fun StatelessRemoteScreen(
     ) { innerPadding ->
 
         if(isLandscapeMode) {
-            RemoteLandscapeView(
+            TouchpadLandscapeView(
                 remoteLayout = remoteLayout,
                 navigationLayout = navigationLayout,
                 modifier = Modifier
@@ -140,7 +137,7 @@ private fun StatelessRemoteScreen(
                     .padding(innerPadding)
             )
         } else {
-            RemotePortraitView(
+            TouchpadPortraitView(
                 remoteLayout = remoteLayout,
                 navigationLayout = navigationLayout,
                 modifier = Modifier
@@ -155,7 +152,7 @@ private fun StatelessRemoteScreen(
 }
 
 @Composable
-private fun RemoteLandscapeView(
+private fun TouchpadLandscapeView(
     remoteLayout: @Composable () -> Unit,
     navigationLayout: @Composable () -> Unit,
     modifier: Modifier = Modifier
@@ -190,7 +187,7 @@ private fun RemoteLandscapeView(
 }
 
 @Composable
-private fun RemotePortraitView(
+private fun TouchpadPortraitView(
     remoteLayout: @Composable () -> Unit,
     navigationLayout: @Composable () -> Unit,
     modifier: Modifier = Modifier
@@ -230,7 +227,7 @@ private fun RemotePortraitView(
 }
 
 @Composable
-private fun RemoteLayout(
+private fun TouchpadLayout(
     showAdvancedKeyboard: Boolean,
     keyboardLanguage: KeyboardLanguage,
     sendKeyboardKeyReport: (ByteArray) -> Unit

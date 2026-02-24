@@ -28,7 +28,7 @@ import com.ctr04.touchpad.ui.navigation.AppNavDestination
 import com.ctr04.touchpad.ui.navigation.AppNavHost
 import com.ctr04.touchpad.ui.navigation.navigateTo
 import com.ctr04.touchpad.ui.screens.AccessibilityPermissionsScreen
-import com.ctr04.touchpad.ui.screens.RemoteScreen
+import com.ctr04.touchpad.ui.screens.TouchpadScreen
 import com.ctr04.touchpad.ui.screens.SettingsScreen
 import com.ctr04.touchpad.ui.screens.ThirdLibrariesScreen
 import com.ctr04.touchpad.ui.theme.BtRemoteTheme
@@ -108,7 +108,7 @@ fun BtRemoteApp(
                 },
 
                 remoteScreen = {
-                    RemoteScreen(
+                    TouchpadScreen(
                         closeApp = { context.getActivity()?.moveTaskToBack(true) },
                         navigateToSettings = navigateToSettings,
                         modifier = Modifier
