@@ -38,6 +38,19 @@ class MyTouchpadService : AccessibilityService() {
     private val hotSpotX = 8f
     private val hotSpotY = 8f
 
+    private val hideHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val hideRunnable = Runnable {
+        if (::cursorView.isInitialized) {
+            cursorView.animate()
+                .alpha(0f)
+                .setDuration(500)
+                .withEndAction {
+                    cursorView.visibility = android.view.View.GONE
+                }
+                .start()
+        }
+    }
+
     private var isRefreshing = false
 
     private val displayListener = object : DisplayManager.DisplayListener {
@@ -79,6 +92,7 @@ class MyTouchpadService : AccessibilityService() {
     }
 
     private fun processRemoteInput(dx: Float, dy: Float, isClick: Byte, scroll: Float) {
+        resetIdleTimer()
         val size = getDisplaySize(targetDisplayId)
         val currentWidth = size.first
         val currentHeight = size.second
@@ -172,6 +186,8 @@ class MyTouchpadService : AccessibilityService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        hideHandler.removeCallbacks(hideRunnable)
+
         val displayManager = getSystemService(DISPLAY_SERVICE) as DisplayManager
         displayManager.unregisterDisplayListener(displayListener)
 
@@ -229,6 +245,8 @@ class MyTouchpadService : AccessibilityService() {
 
         cursorView = ImageView(displayContext).apply {
             setImageResource(R.drawable.pointer_arrow)
+            visibility = android.view.View.GONE
+            alpha = 0f
         }
 
         val params = WindowManager.LayoutParams(
@@ -248,6 +266,7 @@ class MyTouchpadService : AccessibilityService() {
 
         try {
             externalWindowManager.addView(cursorView, params)
+            resetIdleTimer()
         } catch (_: Exception) {}
     }
 
@@ -271,5 +290,17 @@ class MyTouchpadService : AccessibilityService() {
             display.getRealMetrics(metrics)
             Pair(metrics.widthPixels, metrics.heightPixels)
         }
+    }
+
+    private fun resetIdleTimer() {
+        if (!::cursorView.isInitialized) return
+
+        cursorView.animate().cancel()
+
+        cursorView.alpha = 1f
+        cursorView.visibility = android.view.View.VISIBLE
+
+        hideHandler.removeCallbacks(hideRunnable)
+        hideHandler.postDelayed(hideRunnable, 3000L)
     }
 }
